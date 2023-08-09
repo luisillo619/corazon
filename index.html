@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corazón interactivo</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle at center, #FFDDAA, #FF88CC);
+            overflow: hidden;
+        }
+
+        h1 {
+            position: absolute;
+            top: 15%;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            font-size: 2.5rem; 
+            transform: scale(1);
+            transition: transform 1s, opacity 1s, top 1s;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .animate-text {
+            animation: riseAndGrow 2s forwards;
+        }
+
+        @keyframes riseAndGrow {
+            0% {
+                transform: scale(1);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        .heart {
+            position: relative;
+            width: 100px;
+            height: 90px;
+            background-color: transparent;
+            animation: slowBeat 2s infinite;
+            cursor: pointer;
+            transition: transform 0.5s;
+        }
+
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 52px;
+            height: 80px;
+            border-radius: 50px 50px 0 0;
+            background: linear-gradient(45deg, #f06, #9f6);
+        }
+
+        .heart::before {
+            left: 50px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes slowBeat {
+            0%, 20%, 40%, 60%, 80%, 100% {
+                transform: scale(1);
+            }
+            10%, 30%, 50%, 70%, 90% {
+                transform: scale(1.06);
+            }
+        }
+
+        .heart:hover {
+            animation: fastBeat 1.5s infinite;
+        }
+
+        @keyframes fastBeat {
+            0%, 20%, 40%, 60%, 100%, 100% {
+                transform: scale(1.1);
+            }
+            10%, 30%, 70%, 70%, 90% {
+                transform: scale(1.8);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="message">Toca el corazón</h1>
+    <div class="heart" onclick="enlargeHeart()"></div>
+
+    <script>
+        function enlargeHeart() {
+            const heart = document.querySelector('.heart');
+            const message = document.getElementById('message');
+
+            heart.style.transform = "scale(2)";
+            if (message.textContent === "Toca el corazón") {
+                message.textContent = "Te quiero, mi melón";
+                message.style.top = "20%";
+                message.classList.add("animate-text");
+                document.body.style.background = "radial-gradient(circle at center, #FF6699, #FF3388)";
+            } else {
+                message.textContent = "Toca el corazón";
+                message.style.top = "15%";
+                message.style.opacity = 1;
+                message.style.transform = "scale(1)";
+                message.classList.remove("animate-text");
+                document.body.style.background = "radial-gradient(circle at center, #FFDDAA, #FF88CC)";
+            }
+        }
+    </script>
+</body>
+
+</html>
